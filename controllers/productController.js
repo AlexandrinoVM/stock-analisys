@@ -1,10 +1,10 @@
-const StockModel = require('../models/stockModel');
+const ProductModel = require('../models/productModel');
 
-class StockController {
+class ProductController {
   static async getAll(req, res) {
     try {
-      const stocks = await StockModel.getAll();
-      res.json(stocks);
+      const products = await ProductModel.getAll();
+      res.json(products);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -12,8 +12,8 @@ class StockController {
 
   static async create(req, res) {
     try {
-      const stock = await StockModel.create(req.body);
-      res.json(stock);
+      const product = await ProductModel.create(req.body);
+      res.json(product);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -22,8 +22,8 @@ class StockController {
   static async update(req, res) {
     try {
       const { id } = req.params;
-      const stock = await StockModel.update(id, req.body);
-      res.json(stock);
+      const product = await ProductModel.update(id, req.body);
+      res.json(product);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -32,12 +32,12 @@ class StockController {
   static async delete(req, res) {
     try {
       const { id } = req.params;
-      await StockModel.delete(id);
-      res.json({ message: 'Stock deleted' });
+      await ProductModel.delete(id);
+      res.json({ message: 'Product deleted' });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
 }
 
-module.exports = StockController;
+module.exports = ProductController;
