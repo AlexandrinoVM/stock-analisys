@@ -1,4 +1,4 @@
-const StockBalanceModel = require('../models/stockBalanceModel');
+import StockBalanceModel from '../models/stockBalanceModel.js';
 
 class StockBalanceController {
   static async getAll(req, res) {
@@ -40,4 +40,4 @@ class StockBalanceController {
   }
 }
 
-module.exports = StockBalanceController;
+export default StockBalanceController;

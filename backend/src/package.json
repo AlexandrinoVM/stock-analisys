@@ -2,6 +2,7 @@
   "name": "stock-analysis-api",
   "version": "1.0.0",
   "description": "Basic REST API for stock analysis with Supabase",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js"

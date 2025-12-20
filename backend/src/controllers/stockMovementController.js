@@ -1,4 +1,4 @@
-const StockMovementModel = require('../models/stockMovementModel');
+import StockMovementModel from '../models/stockMovementModel.js';
 
 class StockMovementController {
   static async getAll(req, res) {
@@ -40,4 +40,4 @@ class StockMovementController {
   }
 }
 
-module.exports = StockMovementController;
+export default StockMovementController;

@@ -1,9 +1,5 @@
-const { createClient } = require('@supabase/supabase-js');
-const StockBalanceController = require('../controllers/stockBalanceController');
-const StockBalanceModel = require('./stockBalanceModel');
-require('dotenv').config();
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+import StockBalanceModel from './stockBalanceModel.js';
+import supabase from '../supabase.js';
 
 class ProductModel {
   static async getAll() {
@@ -34,4 +30,4 @@ class ProductModel {
   }
 }
 
-module.exports = ProductModel;
+export default ProductModel;
