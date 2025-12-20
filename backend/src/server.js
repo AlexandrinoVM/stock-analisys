@@ -4,7 +4,7 @@ import cors from 'cors';
 import productRoutes from './routes/productRoutes.js';
 import stockMovementRoutes from './routes/stockMovementRoutes.js';
 import stockBalanceRoutes from './routes/stockBalanceRoutes.js';
-
+import stockRoute from './routes/stockRoute.js';
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -18,6 +18,7 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/stock-moviments', stockMovementRoutes);
 app.use('/api/stock-balances', stockBalanceRoutes);
+app.use('/api/stock', stockRoute);
 
 // Start server
 app.listen(port, () => {
