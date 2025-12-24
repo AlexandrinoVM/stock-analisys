@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // simule aqui suas funções reais
 async function fetchProducts() {
@@ -35,12 +35,16 @@ export default function DeleteProductForm() {
     if (!confirm("Tem certeza que deseja deletar?")) return;
 
     const res = await deleteProduct(Number(selectedId));
+    console.log("Delete response:", res);
     alert("Produto deletado!");
     setSelectedId("");
   }
 
   return (
-    <Card className="p-4 border rounded-lg shadow-sm bg-background">
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle>Deletar Produto</CardTitle>
+      </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col space-y-2">

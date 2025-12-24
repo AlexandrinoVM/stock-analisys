@@ -1,7 +1,5 @@
 import { ChartAreaInteractive } from "@/components/feature/dashboard/components/AreaChartProducts";
 
-
-
 export default function Home() {
   return (
     <div>

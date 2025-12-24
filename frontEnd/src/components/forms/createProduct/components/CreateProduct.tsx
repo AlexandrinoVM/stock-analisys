@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreateProducts } from "../services/productService";
 
 export interface ProductFormValues {
@@ -10,11 +11,7 @@ export interface ProductFormValues {
   description?: string;
 }
 
-interface ProductFormProps {
-  onSubmit?: (data: ProductFormValues) => void | Promise<void>;
-}
-
-export default function ProductForm({ onSubmit }: ProductFormProps) {
+export default function ProductForm() {
   const [form, setForm] = useState<ProductFormValues>({
     name: "",
     description: "",
@@ -54,36 +51,40 @@ export default function ProductForm({ onSubmit }: ProductFormProps) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 p-4 rounded-lg border bg-background shadow-sm"
-    >
-      <div className="flex flex-col space-y-2">
-        <Label htmlFor="name">Nome do Produto *</Label>
-        <Input
-          id="name"
-          name="name"
-          placeholder="Ex: Teclado Mecânico"
-          required
-          value={form.name}
-          onChange={handleChange}
-        />
-      </div>
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle>Cadastrar Novo Produto</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex flex-col space-y-2">
+            <Label htmlFor="name">Nome do Produto *</Label>
+            <Input
+              id="name"
+              name="name"
+              placeholder="Ex: Teclado Mecânico"
+              required
+              value={form.name}
+              onChange={handleChange}
+            />
+          </div>
 
-      <div className="flex flex-col space-y-2">
-        <Label htmlFor="description">Descrição (opcional)</Label>
-        <Textarea
-          id="description"
-          name="description"
-          placeholder="Detalhes opcionais..."
-          value={form.description}
-          onChange={handleChange}
-        />
-      </div>
+          <div className="flex flex-col space-y-2">
+            <Label htmlFor="description">Descrição (opcional)</Label>
+            <Textarea
+              id="description"
+              name="description"
+              placeholder="Detalhes opcionais..."
+              value={form.description}
+              onChange={handleChange}
+            />
+          </div>
 
-      <Button type="submit" className="w-full">
-        Cadastrar Produto
-      </Button>
-    </form>
+          <Button type="submit" className="w-full">
+            Cadastrar Produto
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 }
