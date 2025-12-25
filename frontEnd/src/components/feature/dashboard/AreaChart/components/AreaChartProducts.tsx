@@ -30,6 +30,7 @@ interface MovementData {
   date: string;
   item: string;
   quantity: number;
+  type: string;
 }
 
 interface ChartDataPoint {
@@ -58,25 +59,40 @@ export function ChartAreaInteractive() {
             data.push({
               date: mov.created_at, 
               item: product.name,
-              quantity: mov.quantity
+              quantity: mov.quantity,
+              type: mov.type
             })
           })
         })
-        const grouped: { [date: string]: { [item: string]: number } } = {}
+        // Sort data by date
+        data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+
+        // Maintain balances per item
+        const balances: { [item: string]: number } = {}
         const itemSet = new Set<string>()
-        data.forEach(item => {
-          if (!grouped[item.date]) {
-            grouped[item.date] = {}
+        const dateBalances: { [date: string]: { [item: string]: number } } = {}
+
+        data.forEach(mov => {
+          itemSet.add(mov.item)
+          if (!balances[mov.item]) {
+            balances[mov.item] = 0
           }
-          if (!grouped[item.date][item.item]) {
-            grouped[item.date][item.item] = 0
+          // Update balance based on type
+          if (mov.type === 'in') {
+            balances[mov.item] += mov.quantity
+          } else if (mov.type === 'out') {
+            balances[mov.item] -= mov.quantity
           }
-          grouped[item.date][item.item] += item.quantity
-          itemSet.add(item.item)
+          // Record balance at this date
+          if (!dateBalances[mov.date]) {
+            dateBalances[mov.date] = {}
+          }
+          dateBalances[mov.date][mov.item] = balances[mov.item]
         })
-        const processedData: ChartDataPoint[] = Object.keys(grouped).map(date => ({
+
+        const processedData: ChartDataPoint[] = Object.keys(dateBalances).map(date => ({
           date,
-          ...grouped[date]
+          ...dateBalances[date]
         })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
         const itemList = Array.from(itemSet)
         setChartData(processedData)
@@ -121,9 +137,9 @@ export function ChartAreaInteractive() {
     <Card className="pt-0">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Area Chart - Interactive</CardTitle>
+          <CardTitle>Interative Chart of Products Movimnets</CardTitle>
           <CardDescription>
-            Showing total visitors for the last 3 months
+            Showing In and Out os Moviments on the stock
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>

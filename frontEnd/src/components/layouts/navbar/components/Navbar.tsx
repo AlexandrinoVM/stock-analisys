@@ -40,7 +40,7 @@ export default function Navbar() {
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         
         <Link to="/" className="text-xl font-bold">
-          stock_management
+          Stock Anlaisys
         </Link>
 
         

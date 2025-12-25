@@ -1,14 +1,22 @@
-import { ChartAreaInteractive } from "@/components/feature/dashboard/components/AreaChartProducts";
+import { ChartAreaInteractive } from "@/components/feature/dashboard/AreaChart/components/AreaChartProducts";
+import { ChartPieLabelList } from "@/components/feature/dashboard/pieChart/components/PieCharts";
+import { ChartBarHorizontal } from "@/components/feature/dashboard/StockEvolutionChart/components/StockEvolutionChart";
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline text-center">Welcome to Stock Management System</h1>
-      <p className="mt-4 text-lg text-center">
-        This is the home page. Use the navigation bar to explore different sections of the application.
-      </p>
-      <br />
+    <>
+      <div>
       <ChartAreaInteractive/>
-    </div>
+      </div>
+      <div className="flex gap-4">
+        <div className="flex-1">
+          <ChartPieLabelList/>
+        </div>
+        <div className="flex-[2]">
+          <ChartBarHorizontal/>
+        </div>
+      </div>
+    </>
+    
   )
 }
