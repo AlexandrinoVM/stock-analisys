@@ -1,7 +1,6 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, XAxis, YAxis } from "recharts"
+import { useState, useEffect } from "react"
 
 import {
   Card,
@@ -12,69 +11,86 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart"
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import api from "@/api/api"
 
-export const description = "A horizontal bar chart"
+export const description = "A table for today's product entries and exits"
 
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
-  },
-} satisfies ChartConfig
+interface ProductMovement {
+  product: string;
+  entries: number;
+  exits: number;
+}
 
 export function ChartBarHorizontal() {
+  const [chartData, setChartData] = useState<ProductMovement[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [productsRes, movementsRes] = await Promise.all([
+          api.get('/products'),
+          api.get('/stock-moviments')
+        ])
+        const products = productsRes.data
+        const movements = movementsRes.data
+        console.log('Products:', products)
+        console.log('Movements:', movements)
+        const today = new Date().toISOString().split('T')[0]
+        const todaysMovements = movements.filter((m: { created_at: string }) => m.created_at.split('T')[0] === today)
+        const productMap: Record<string | number, any> = {}
+        products.forEach((p: { id: string | number; name: any }) => productMap[p.id] = p.name)
+        const dataMap: Record<string, { entries: number; exits: number }> = {}
+        todaysMovements.forEach((m: { product_id: string | number; type: string; quantity: any }) => {
+          const prod = productMap[m.product_id]
+          if (!prod) return
+          if (!dataMap[prod]) dataMap[prod] = { entries: 0, exits: 0 }
+          if (m.type === 'in') dataMap[prod].entries += m.quantity
+          else if (m.type === 'out') dataMap[prod].exits += m.quantity
+        })
+        const data = Object.keys(dataMap).map(prod => ({ product: prod, ...dataMap[prod] }))
+        setChartData(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchData()
+  }, [])
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart - Horizontal</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Ins and Outs of Products</CardTitle>
+        <CardDescription>Today</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="max-h-[400px] max-w-[600px]">
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            layout="vertical"
-            margin={{
-              left: 0,
-            }}
-          >
-            <XAxis type="number" dataKey="desktop" hide />
-            <YAxis
-              dataKey="month"
-              type="category"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={5} />
-          </BarChart>
-        </ChartContainer>
+        <Table>
+          <TableCaption>Entries and exits of products today</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product</TableHead>
+              <TableHead>Entries</TableHead>
+              <TableHead>Exits</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {chartData.map((item) => (
+              <TableRow key={item.product}>
+                <TableCell>{item.product}</TableCell>
+                <TableCell>{item.entries}</TableCell>
+                <TableCell>{item.exits}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="text-muted-foreground leading-none">
-          Showing total stock Evolution
-        </div>
-      </CardFooter>
     </Card>
   )
 }

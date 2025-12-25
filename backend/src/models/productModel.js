@@ -38,6 +38,8 @@ class ProductModel {
   }
 
   static async delete(id) {
+    const {error: stockMovementError} = await supabase.from('stock_moviments').delete().eq('product_id', id);
+    if (stockMovementError) throw stockMovementError;
     const {error: balanceError} = await supabase.from('stock_balance').delete().eq('product_id', id);
     if (balanceError) throw balanceError;
     const { error } = await supabase.from('products').delete().eq('id', id);

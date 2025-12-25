@@ -2,7 +2,6 @@
 import { Routes,Route } from 'react-router-dom'
 import Navbar from './components/layouts/navbar/components/Navbar'
 import Home from './pages/Home'
-import EntryProduct from './components/forms/entryProduct/components/EntryProduct'
 import EntryProductPage from './pages/EntryProductPage'
 import DeleteProductPage from './pages/DeleteProductPage'
 import AddProductPage from './pages/AddProductPage'
