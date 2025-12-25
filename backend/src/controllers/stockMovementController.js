@@ -13,7 +13,7 @@ class StockMovementController {
   static async create(req, res) {
     try {
       const movement = await StockMovementModel.create(req.body);
-      res.json(movement);
+      res.json({ success: true });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

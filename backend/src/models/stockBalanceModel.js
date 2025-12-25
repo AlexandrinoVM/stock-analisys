@@ -2,7 +2,7 @@ import supabase from '../supabase.js';
 
 class StockBalanceModel {
   static async getAll() {
-    const { data, error } = await supabase.from('stock_balance').select('*');
+    const { data, error } = await supabase.from('stock_balance').select('');
     if (error) throw error;
     return data;
   }

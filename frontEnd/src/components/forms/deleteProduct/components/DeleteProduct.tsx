@@ -4,10 +4,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-// simule aqui suas funções reais
+
 async function fetchProducts() {
   const res = await fetch("http://localhost:3000/api/products");
-  return res.json(); // esperado: [{id, name}]
+  return res.json(); 
 }
 
 async function deleteProduct(id: Number) {

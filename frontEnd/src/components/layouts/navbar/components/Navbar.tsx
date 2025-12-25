@@ -7,7 +7,6 @@ import { useState } from "react"
 
 const navigation = [
   { name: "home", href: "/" },
-  { name: "Dashboard", href: "/dashboard" },
   { name: "Add Product", href: "/add_product" },
   { name: "Delete Product", href: "/delete_product" },
   { name: "Entry Product", href: "/entry_product" },

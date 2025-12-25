@@ -3,9 +3,21 @@ import supabase from '../supabase.js';
 
 class ProductModel {
   static async getAll() {
-    const { data, error } = await supabase.from('products').select('*');
+    const { data, error } = await supabase
+      .from('products')
+      .select(`
+        id,
+        name,
+        description
+      `)
+      .order('created_at');
     if (error) throw error;
-    return data;
+    // Transform to { date, item, quantity }
+    return data/* data.map(movement => ({
+      date: movement.created_at.split('T')[0], // YYYY-MM-DD
+      item: movement.products.name,
+      quantity: movement.type === 'in' ? movement.quantity : -movement.quantity
+    })); */ ;
   }
 
   static async create(product) {
