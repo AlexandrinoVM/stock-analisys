@@ -1,9 +1,10 @@
 // src/components/layout/Navbar.tsx
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 import { useState } from "react"
+import { useAuth } from "@/contexts/AuthContext"
 
 const navigation = [
   { name: "home", href: "/" },
@@ -15,6 +16,13 @@ const navigation = [
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
 
   const NavLinks = () => (
     <>
@@ -46,6 +54,9 @@ export default function Navbar() {
         
         <div className="hidden md:flex items-center space-x-4">
           <NavLinks />
+          <Button onClick={handleLogout} variant="outline">
+            Logout
+          </Button>
         </div>
 
         
@@ -58,6 +69,9 @@ export default function Navbar() {
           <SheetContent side="right">
             <div className="flex flex-col space-y-4 mt-8">
               <NavLinks />
+              <Button onClick={handleLogout} variant="outline" className="w-full">
+                Logout
+              </Button>
             </div>
           </SheetContent>
         </Sheet>

@@ -1,12 +1,20 @@
 
-import { Routes,Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/layouts/navbar/components/Navbar'
 import Home from './pages/Home'
 import EntryProductPage from './pages/EntryProductPage'
 import DeleteProductPage from './pages/DeleteProductPage'
 import AddProductPage from './pages/AddProductPage'
+import LoginPage from './pages/LoginPage'
+import { useAuth } from './contexts/AuthContext'
 
 function App() {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <LoginPage />;
+  }
+
   return (
      <>
      <Navbar />
