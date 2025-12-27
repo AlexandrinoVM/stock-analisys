@@ -1,6 +1,6 @@
-backend/src/node_modules/
-frontend/node_modules/
-backend/src/.env
+src/backend/src/node_modules/
+src/frontend/node_modules/
+src/backend/src/.env
 .env.local
 *.log
 .DS_Store

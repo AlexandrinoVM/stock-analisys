@@ -19,6 +19,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart"
 import api from "@/api/api"
+import { useRefresh } from "@/contexts/RefreshContext"
 
 interface ProductData {
   name: string;
@@ -31,6 +32,7 @@ export function ChartPieLabelList() {
   const [chartData, setChartData] = React.useState<ProductData[]>([])
   const [chartConfig, setChartConfig] = React.useState<ChartConfig>({})
   const [loading, setLoading] = React.useState(true)
+  const { refreshTrigger } = useRefresh()
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -67,7 +69,7 @@ export function ChartPieLabelList() {
       }
     }
     fetchData()
-  }, [])
+  }, [refreshTrigger])
 
   if (loading) {
     return <div>Loading...</div>

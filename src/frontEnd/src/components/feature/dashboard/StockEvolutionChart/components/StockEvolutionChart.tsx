@@ -20,6 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import api from "@/api/api"
+import { useRefresh } from "@/contexts/RefreshContext"
 
 export const description = "A table for today's product entries and exits"
 
@@ -31,6 +32,7 @@ interface ProductMovement {
 
 export function ChartBarHorizontal() {
   const [chartData, setChartData] = useState<ProductMovement[]>([])
+  const { refreshTrigger } = useRefresh()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +64,7 @@ export function ChartBarHorizontal() {
       }
     }
     fetchData()
-  }, [])
+  }, [refreshTrigger])
 
   return (
     <Card>

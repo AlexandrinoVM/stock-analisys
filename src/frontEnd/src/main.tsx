@@ -5,13 +5,16 @@ import {
 } from "react-router-dom"
 import App from "./App.tsx"
 import { AuthProvider } from "./contexts/AuthContext.tsx"
+import { RefreshProvider } from "./contexts/RefreshContext.tsx"
 import "./index.css" 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <RefreshProvider>
+          <App />
+        </RefreshProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

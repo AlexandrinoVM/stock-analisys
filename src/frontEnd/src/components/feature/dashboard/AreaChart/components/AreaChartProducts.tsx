@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import api from "@/api/api"
+import { useRefresh } from "@/contexts/RefreshContext"
 
 interface MovementData {
   date: string;
@@ -46,6 +47,7 @@ export function ChartAreaInteractive() {
   const [loading, setLoading] = React.useState(true)
   const [items, setItems] = React.useState<string[]>([])
   const [chartConfig, setChartConfig] = React.useState<any>({})
+  const { refreshTrigger } = useRefresh()
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -113,7 +115,7 @@ export function ChartAreaInteractive() {
       }
     }
     fetchData()
-  }, [])
+  }, [refreshTrigger])
 
   const filteredData = chartData.filter((item) => {
     const date = new Date(item.date)
